@@ -26,8 +26,8 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: check E2E test
-    - uses: restqa/gherkin-linter-action@0.0.1
+    - name: Gherkin Linter
+      uses: restqa/gherkin-linter-action@0.0.1
       with:
         path: 'src/test/resources/features/'
         config_file: 'src/test/resources/features/.gherkin-lintrc'
