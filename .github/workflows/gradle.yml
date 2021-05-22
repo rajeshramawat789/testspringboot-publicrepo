@@ -27,7 +27,6 @@ jobs:
       run: ./gradlew build
 
     - name: check E2E test
-    - uses: actions/checkout@v1
     - uses: restqa/gherkin-linter-action@0.0.1
       with:
         path: 'src/test/resources/features/'
