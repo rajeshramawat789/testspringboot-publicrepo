@@ -26,6 +26,13 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
+    - name: check E2E test
+    - uses: actions/checkout@v1
+    - uses: restqa/gherkin-linter-action@0.0.1
+      with:
+        path: 'src/test/resources/features/'
+        config_file: 'src/test/resources/features/.gherkin-lintrc'
+
     - name: build and push docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
