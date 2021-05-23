@@ -3,7 +3,6 @@ package com.test.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author rajeshramawat
@@ -18,11 +17,9 @@ public class UserAccounts {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull(message = "")
     @Column(name = "name", length = 150, nullable = false)
     private String name;
 
-    @NotNull
     @Column(name = "phone", length = 12, nullable = false)
     private Long phone;
 

@@ -6,6 +6,7 @@ import com.test.exception.ApiException;
 import com.test.mapper.UserMapper;
 import com.test.repository.UserRepository;
 import com.test.service.UserService;
+import com.test.util.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Optional;
  * @version 1.0.0
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -26,11 +28,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private MessageUtil messageUtil;
+
     public void createUser(UserRequestDto userRequestDto) {
 
         Optional<UserAccounts> userOptional = userRepository.findById(userRequestDto.getId());
         if(userOptional.isPresent()){
-            throw new ApiException("User Already present.");
+            throw new ApiException(messageUtil.getMessage("user.already.exists"));
         }
 
         userRepository.save(userMapper.dtoToEntity(userRequestDto));
@@ -40,14 +45,13 @@ public class UserServiceImpl implements UserService {
 
         Optional<UserAccounts> userOptional = userRepository.findById(userRequestDto.getId());
         if(!userOptional.isPresent()){
-            throw new ApiException("User not found.");
+            throw new ApiException(messageUtil.getMessage("user.not.exists"));
         }
         userRepository.save(userMapper.dtoToEntity(userRequestDto));
 
     }
 
     @Override
-    @Transactional(readOnly = true)
     public UserRequestDto getUserById(Long userId) {
 
         Optional<UserAccounts> userOptional = userRepository.findById(userId);
@@ -55,7 +59,7 @@ public class UserServiceImpl implements UserService {
             return userMapper.entityToDto(userOptional.get());
         }
 
-        throw new ApiException("User not found.");
+        throw new ApiException(messageUtil.getMessage("user.not.exists"));
     }
 
     @Override
@@ -64,7 +68,7 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.deleteById(userId);
         }catch (EmptyResultDataAccessException e){
-            throw new ApiException("User not found.");
+            throw new ApiException(messageUtil.getMessage("user.not.exists"));
         }
     }
 }

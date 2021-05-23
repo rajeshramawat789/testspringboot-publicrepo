@@ -1,7 +1,8 @@
 package com.test.exception;
 
 /**
- * Custom exceptions
+ * @author rajeshramawat
+ * @version 1.0.0
  */
 public class ApiException extends RuntimeException {
 
