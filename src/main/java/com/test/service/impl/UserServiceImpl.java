@@ -48,7 +48,6 @@ public class UserServiceImpl implements UserService {
             throw new ApiException(messageUtil.getMessage("user.not.exists"));
         }
         userRepository.save(userMapper.dtoToEntity(userRequestDto));
-
     }
 
     @Override

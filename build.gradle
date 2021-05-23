@@ -46,7 +46,7 @@ dependencies {
 }
 
 test {
-	useJUnitPlatform()
+	useJUnit()
 }
 
 task cucumber() {
