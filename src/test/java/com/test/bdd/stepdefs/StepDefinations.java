@@ -3,9 +3,6 @@ package com.test.bdd.stepdefs;
 import com.test.dto.request.UserRequestDto;
 import io.cucumber.java8.En;
 import io.restassured.response.Response;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -14,16 +11,11 @@ import static org.assertj.core.api.Assertions.fail;
  * @author rajeshramawat
  * @version 1.0.0
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class StepDefinations extends AbstractSteps implements En {
 
     public StepDefinations() {
 
-        Given("User can access the API", () -> {
-
-            testContext().reset();
-        });
+        Given("User can access the API", () -> testContext().reset());
 
         When("User fill the field id with {string}", (String value) -> {
             UserRequestDto userRequestDto = new UserRequestDto();
@@ -31,40 +23,52 @@ public class StepDefinations extends AbstractSteps implements En {
             super.testContext().setPayload(userRequestDto);
         });
 
-        When("User wants to delete the account with id: {string}", (String value) -> {
-            super.testContext().set("id", Long.parseLong(value));
-        });
+        When("User wants to delete the account with id: {string}", this::accept);
 
         And("User fill the field {string} with {string}", (String field, String value) -> {
 
             UserRequestDto payload = super.testContext()
                     .getPayload(UserRequestDto.class);
-            if(field.equals("phone")){
-                payload.setPhone(Long.parseLong(value));
-            }else if(field.equals("name")){
-                payload.setName(value);
-            }else if(field.equals("email")){
-                payload.setEmail(value);
-            }else if(field.equals("address")){
-                payload.setAddress(value);
-            }else if(field.equals("country")){
-                payload.setCountry(value);
-            }else if(field.equals("department")){
-                payload.setDepartment(value);
+            switch (field) {
+                case "phone":
+                    payload.setPhone(Long.parseLong(value));
+                    break;
+                case "name":
+                    payload.setName(value);
+                    break;
+                case "email":
+                    payload.setEmail(value);
+                    break;
+                case "address":
+                    payload.setAddress(value);
+                    break;
+                case "country":
+                    payload.setCountry(value);
+                    break;
+                case "department":
+                    payload.setDepartment(value);
+                    break;
             }
         });
 
         And("User send this data to API \\({})", (String action) -> {
 
-            if(action.equals("CREATE")){
-                String createUserAccountUrl = "/api/v1/user";
-                executePost(createUserAccountUrl);
-            }else if(action.equals("UPDATE")){
-                String createUserAccountUrl = "/api/v1/user";
-                executePut(createUserAccountUrl);
-            }else if(action.equals("DELETE")){
-                String createUserAccountUrl = "/api/v1/user/"+super.testContext().get("id");
-                executeDelete(createUserAccountUrl);
+            switch (action) {
+                case "CREATE": {
+                    String createUserAccountUrl = "/api/v1/user";
+                    executePost(createUserAccountUrl);
+                    break;
+                }
+                case "UPDATE": {
+                    String createUserAccountUrl = "/api/v1/user";
+                    executePut(createUserAccountUrl);
+                    break;
+                }
+                case "DELETE": {
+                    String createUserAccountUrl = "/api/v1/user/" + super.testContext().get("id");
+                    executeDelete(createUserAccountUrl);
+                    break;
+                }
             }
         });
 
@@ -90,5 +94,9 @@ public class StepDefinations extends AbstractSteps implements En {
             }
         });
 
+    }
+
+    private void accept(String value) {
+        super.testContext().set("id", Long.parseLong(value));
     }
 }
