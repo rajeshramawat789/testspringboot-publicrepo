@@ -13,9 +13,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         plugin = {"pretty", "json:target/cucumber-report.json"},
         glue = {"com.test.bdd"}
-
         )
-public class CucumberTest {
-
+public class CucumberTest extends CucumberSpringContextConfiguration{
 
 }
