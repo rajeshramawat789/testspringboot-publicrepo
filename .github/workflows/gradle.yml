@@ -24,12 +24,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
-
-    - name: Gherkin Linter
-      uses: restqa/gherkin-linter-action@0.0.1
-      with:
-        path: 'src/test/resources/features/'
+      run: ./gradlew cucumber build
 
     - name: build and push docker image
       uses: mr-smithers-excellent/docker-build-push@v5
