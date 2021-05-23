@@ -3,7 +3,8 @@ package com.test.exception;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * used to convert field error to json format
+ * @author rajeshramawat
+ * @version 1.0.0
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FieldErrorResource {
