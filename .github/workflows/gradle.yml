@@ -34,10 +34,12 @@ jobs:
       run: chmod +x gradlew
       
     - name: test with Gradle
-      run: ./gradlew test
+      run: |
+        ./gradlew test cucumber
       
     - name: build with Gradle
-      run: ./gradlew build
+      run: |
+        ./gradlew build
     
     - name: Cleanup Gradle Cache
       # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
